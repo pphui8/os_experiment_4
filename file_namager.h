@@ -70,7 +70,7 @@ manager::manager(int i)
     user[0].password = "000000";
     user[0].id = 0;
     usernum = 1;
-    
+
     //初始化磁盘
     disk.df_size = 0;
     disk.f_size = 0;
@@ -79,18 +79,8 @@ manager::manager(int i)
     disk.df[0].contents.size = 0;
     //默认文件夹/用户root
     mkdir(0, 0, "root", 0);
-
-    /*strcpy(disk.df[0].contents.dir[0].f_name, "root");
-    //默认文件夹root
-    strcpy(disk.df[0].contents.dir[0].f_name, "root");
-    disk.df[0].contents.dir[0].f_type = true;
-    disk.df[0].contents.dir[0].f_mode = 0;
-    disk.df[0].contents.dir[0].f_size = 1;
-    disk.df[0].contents.dir[0].f_addr = 1;
-    strcpy(disk.df[1].f_name, "root");
-    disk.df_size = 1;*/
     //root下默认文件config,conf
-    touch(0, 1, "config.conf", 1, "none");
+    touch(0, 1, "config.conf", 1, "Netrw Directory Listing");
 }
 
 
@@ -127,7 +117,6 @@ manager::run(int usr, int layer)
         const char * str = command.c_str();
         switch(hash_(str)) {
             case "ls"_hash :
-                //cout<<disk.df[layer].contents.size;
                 for(int i = 1; i <= disk.df[layer].contents.size; ++i) {
                     cout<<disk.df[layer].contents.dir[i].f_name<<" ";
                 }
@@ -194,11 +183,19 @@ manager::run(int usr, int layer)
                 }
                 break;
             case "vim"_hash :
+                cin>>command;
                 for(int i = 1; i <= disk.df[layer].contents.size; ++i) {
                     if(!strcmp(disk.df[layer].contents.dir[i].f_name, command.c_str())) {
-
+                        if(!disk.df[layer].contents.dir[i].f_type) {
+                            cout<<disk.f[disk.df[layer].contents.dir[i].f_addr].f_contents<<endl;
+                            goto __command_end;
+                        }
+                        else {
+                            cout<<command<<"is not a file"<<endl;
+                        }
                     }
                 }
+                cout<<"no such file"<<endl;
                 break;
             default :
                 cout<<"bash: "<<command<<": command not found"<<endl;
