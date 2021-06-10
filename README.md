@@ -52,3 +52,12 @@ Struct disk
  struct file f[HADDR];   
 }  
 ```
+
+command avaliable
+> 登录：程序开始自动登录  
+> 列出该文件夹下所有文件：ls  
+> 进入该文件夹：cd + 文件夹名称  
+> 在当前目录下创建新目录：mkdir + 新目录名称  
+> 在当前目录下创建新文件：touch + 新文件名称  
+> 返回最上级：cd ..  
+> 查看文件vim + 文件名称  
